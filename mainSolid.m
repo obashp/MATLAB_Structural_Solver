@@ -14,8 +14,8 @@ problemType = '2D' ;
 % crdSolid = crd(unique(reshape(BCStructure,[],1)),2:end);
 
 
-nElem_x = 128 ;      % Number of elements in X
-nElem_y = 32 ;      % Number of elements in Y
+nElem_x = 64 ;      % Number of elements in X
+nElem_y = 16 ;      % Number of elements in Y
 nen   = 4 ;         % Number of nodes per element
 nElem = nElem_x * nElem_y ;
 xmax = 0.35;
@@ -60,11 +60,11 @@ StoreVTK('Solid_Stress','2D',ndof,nElem,nen,crd,cnn);
 % Nonlinear iteration data:
 solver.nLIterMin = 5 ;
 solver.nLIterMax = 10 ;
-solver.dt = 0.001 ;
-solver.maxSteps = 300;
-solver.rhoinfty = 0.9 ;
+solver.dt = 0.02 ;
+solver.maxSteps = 750;
+solver.rhoinfty = 1.0 ;
 solver.nLTol = 1e-4 ;
-solver.outFreq = 25 ;
+solver.outFreq = 100 ;
 solver.intgOutFreq = 1 ;
 
 % Solid properties
@@ -89,11 +89,13 @@ solid.DirichletVval = [solid.Bc_LeftV(2).*ones(solid.Bc_LeftN,1)];
 % Gen-alpha time integration parameters
 pmc.alphaM = 0.5*(3.0-solver.rhoinfty)/(1+solver.rhoinfty) ;
 pmc.alpha = 1.0/(1+solver.rhoinfty) ;
-pmc.gamma = 0.5 + pmc.alphaM - pmc.alpha ;
+pmc.gamma2 = 0.5 + pmc.alphaM - pmc.alpha ;
+pmc.gamma1 = 0.5 + 0.5*(pmc.alphaM - pmc.alpha);
 % pmc.beta  = 0.25*(1+pmc.alphaM-pmc.alpha)^2;
 % pmc.alphaM = 1.0;
-%pmc.alpha = 1.0;
-%pmc.gamma = 1.0;
+% pmc.alpha = 1.0;
+% pmc.gamma1 = 1.0;
+% pmc.gamma2 = 1.0;
 % % pmc.beta = 0.5;
 
 % Solid variables

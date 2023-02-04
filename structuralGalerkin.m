@@ -7,7 +7,7 @@ function [LHS, RHS] = structuralGalerkin(Sol, solid, pmc, solver, ...
 % accFac = (1.0-pmc.alphaM)/(1.0-pmc.alpha)*(1.0/(pmc.beta*solver.dt^2));     
 % dispFac = pmc.beta*solver.dt/pmc.gamma;
 
-accFac = pmc.alphaM/(pmc.alpha * (pmc.gamma)^2);
+accFac = pmc.alphaM/(pmc.alpha * (pmc.gamma1*pmc.gamma2));
 
 lambda = solid.lambda;
 mu = solid.mu;
