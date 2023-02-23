@@ -35,8 +35,8 @@ elseif strcmp(elemType,'4Quad')
     gP = ...
    [-5.7735026918962584E-01, -5.7735026918962584E-01
      5.7735026918962584E-01, -5.7735026918962584E-01
-    -5.7735026918962584E-01,  5.7735026918962584E-01
-     5.7735026918962584E-01,  5.7735026918962584E-01] ;
+     5.7735026918962584E-01,  5.7735026918962584E-01
+    -5.7735026918962584E-01,  5.7735026918962584E-01] ;
     gW = [1, 1, 1, 1 ] ;
     
     N(:,1) = 0.25.*(1-gP(:,1)).*(1-gP(:,2)) ;
@@ -125,9 +125,9 @@ Increment = LHS(freeNodes,freeNodes)\RHS(freeNodes);
 % Alpha2 = (pmc.alphaM -1.0)/(pmc.beta*solver.dt);
 % Alpha3 = Alpha2*solver.dt*(0.5 - pmc.beta/(1.0-pmc.alphaM));
 
-Alpha1 = pmc.alphaM/(pmc.alpha*(pmc.gamma*solver.dt)^2);
-Alpha2 = -pmc.alphaM/(pmc.gamma^2*solver.dt);
-Alpha3 = (1.0 - pmc.alphaM/pmc.gamma);
+Alpha1 = pmc.alphaM/(pmc.alpha*pmc.gamma1*pmc.gamma2*solver.dt^2);
+Alpha2 = -pmc.alphaM/(pmc.gamma1*pmc.gamma2*solver.dt);
+Alpha3 = (1.0 - pmc.alphaM/pmc.gamma2);
 
 
 
@@ -142,7 +142,7 @@ Sol.uAlpha(:,:,1) = reshape(result(1:2*ndof),[],2);
 % Sol.vDotAlpha(:,:,1) = reshape(resultDDot(1:2*ndof),[],2);
 % Sol.vDotAlpha =  Alpha1*(Sol.uAlpha-Sol.uPrev) + Alpha2*Sol.vPrev + Alpha3*Sol.vDotPrev;
 Sol.vDotAlpha = Alpha1*(Sol.uAlpha - Sol.uPrev) + Alpha2*Sol.vPrev + Alpha3*Sol.vDotPrev;
-Sol.vAlpha = (1 - pmc.alpha/pmc.gamma)*Sol.vPrev + (1.0/(pmc.gamma*solver.dt))*(Sol.uAlpha - Sol.uPrev);
+Sol.vAlpha = (1 - pmc.alpha/pmc.gamma1)*Sol.vPrev + (1.0/(pmc.gamma1*solver.dt))*(Sol.uAlpha - Sol.uPrev);
 
 
 
